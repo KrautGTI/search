@@ -1,0 +1,87 @@
+let PROJECTS = [
+  {
+    id: 1,
+    name: 'Crews',
+    projectidNumber: '0938073320',
+    image: 'https://img.icons8.com/external-line-adri-ansyah/2x/external-construction-real-estate-line-adri-ansyah-2.png'
+  },
+  {
+    id: 2,
+    name: 'Equipment',
+    projectidNumber: '0945565655',
+    image: 'https://img.icons8.com/ios/2x/foundation.png'
+    
+  },
+  {
+    id: 3,
+    name: 'Manufacturing',
+    projectidNumber: '0975149873',
+    image: 'https://img.icons8.com/external-line-adri-ansyah/2x/external-construction-real-estate-line-adri-ansyah.png'
+  },
+  {
+    id: 4,
+    name: 'Projects',
+    projectidNumber: '0638546385',
+    image: 'https://img.icons8.com/external-wanicon-lineal-wanicon/344/external-construction-construction-wanicon-lineal-wanicon.png'
+  },
+  {
+    id: 5,
+    name: 'Subcontractor',
+    projectidNumber: '0506549879',
+    image: 'https://img.icons8.com/ios/72/road-worker.png'
+  }
+]
+
+let Contact = React.createClass({
+  render () {
+    return (
+      <li>
+        <img src={this.props.image} alt="img"/>   
+        <span>{this.props.name}</span>
+        <span className="projectid">{this.props.projectid}</span>
+      </li>     
+    )
+  }
+})
+
+let ContactList = React.createClass({
+  getInitialState () {
+    return {
+      displayedprojects: PROJECTS      
+    };
+  },
+  searchHandler (event) {
+    let searcjQery = event.target.value.toLowerCase(),
+        displayedprojects = PROJECTS.filter((el) => {
+          let searchValue = el.name.toLowerCase();
+          return searchValue.indexOf(searcjQery) !== -1;
+        })
+    this.setState({
+      displayedprojects: displayedprojects
+    })
+  },
+  render () {
+    let projects = this.state.displayedprojects;
+    return (
+      <div className="holder">
+        <input type="text" placeholder="Search for a Module" classNAme="search" onChange={this.searchHandler}/>
+        <ul>
+            {
+              projects.map((el) => {
+                return <Contact key={el.id}
+                                name={el.name}
+                                image={el.image}
+                                projectid={el.projectidNumber} 
+                       /> 
+              })
+          }          
+        </ul>
+      </div>     
+    )
+  }
+});
+
+ReactDOM.render(
+  <ContactList />,
+  document.getElementById('app')
+)
